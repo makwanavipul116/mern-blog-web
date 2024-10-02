@@ -11,11 +11,11 @@ const CallToAction = () => {
                     Want to learn more about JavaScript?
                 </h2>
                 <p className='text-gray-500 my-2'>
-                    Checkout these resources with 100 JavaScript Projects
+                    Checkout these resources with JavaScript Projects
                 </p>
                 <Button gradientDuoTone='purpleToPink' className='rounded-tl-xl rounded-bl-none'>
                     <a href="https://www.google.com" target='_blank' rel='noopener noreferrer'>
-                        100 JavaScript Projects
+                        JavaScript Projects
                     </a>
                 </Button>
             </div>
