@@ -48,6 +48,7 @@ export default function UpdatePost() {
     const [imageUploadProgress, setImageUploadProgress] = useState(null);
     const [imageUploadError, setImageUploadError] = useState(null);
     const [formData, setFormData] = useState({});
+    const [tempData, setTempData] = useState({});
     const [publishError, setPublishError] = useState(null);
     const { postId } = useParams();
 
@@ -66,7 +67,20 @@ export default function UpdatePost() {
                 }
                 if (res.ok) {
                     setPublishError(null);
-                    setFormData(data.posts[0]);
+                    setFormData({
+                        _id: data.posts[0]?._id || '',
+                        title: data.posts[0]?.title || '',
+                        category: data.posts[0]?.category || 'uncategorized',
+                        content: data.posts[0]?.content || '',
+                        image: data.posts[0]?.image || ''
+                    });
+                     setTempData({
+                        _id: data.posts[0]?._id || '',
+                        title: data.posts[0]?.title || '',
+                        category: data.posts[0]?.category || 'uncategorized',
+                        content: data.posts[0]?.content || '',
+                        image: data.posts[0]?.image || ''
+                    });
                 }
             };
 
@@ -114,13 +128,21 @@ export default function UpdatePost() {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
+         const finalFormData = {
+            ...formData,
+            title: formData.title || tempData.title,
+            category: formData.category || tempData.category,
+            content: formData.content || tempData.content,
+            image: formData.image || tempData.image,
+        };
+        
         try {
-            const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+           const res = await fetch(`/api/post/updatepost/${tempData._id}/${currentUser._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                 body: JSON.stringify(finalFormData),
             });
             const data = await res.json();
             if (!res.ok) {
